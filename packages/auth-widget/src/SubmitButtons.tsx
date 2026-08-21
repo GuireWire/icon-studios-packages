@@ -63,7 +63,9 @@ export function SubmitButton({
 // anything inside that specific Actions-API form pattern. Kept as a
 // fallback for any future action-form usage; the explicit prop wins when
 // passed.
-export function GoogleAuthButton({ pending: pendingProp }: { pending?: boolean } = {}) {
+export function GoogleAuthButton({
+  pending: pendingProp,
+}: { pending?: boolean } = {}) {
   const { pending: formPending } = useFormStatus();
   const pending = pendingProp ?? formPending;
 
@@ -83,7 +85,9 @@ export function GoogleAuthButton({ pending: pendingProp }: { pending?: boolean }
   );
 }
 
-export function AppleAuthButton({ pending: pendingProp }: { pending?: boolean } = {}) {
+export function AppleAuthButton({
+  pending: pendingProp,
+}: { pending?: boolean } = {}) {
   const { pending: formPending } = useFormStatus();
   const pending = pendingProp ?? formPending;
 
@@ -95,7 +99,7 @@ export function AppleAuthButton({ pending: pendingProp }: { pending?: boolean } 
         </Button>
       ) : (
         <Button variant={"outline"} className="w-full" type="submit">
-          <AppleIcon className="size-5 mr-2 dark:invert" />
+          <AppleIcon className="size-4 mr-2" />
           Continue with Apple
         </Button>
       )}
@@ -103,7 +107,9 @@ export function AppleAuthButton({ pending: pendingProp }: { pending?: boolean } 
   );
 }
 
-export function FacebookAuthButton({ pending: pendingProp }: { pending?: boolean } = {}) {
+export function FacebookAuthButton({
+  pending: pendingProp,
+}: { pending?: boolean } = {}) {
   const { pending: formPending } = useFormStatus();
   const pending = pendingProp ?? formPending;
 

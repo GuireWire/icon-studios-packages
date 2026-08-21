@@ -123,6 +123,21 @@ export function InitialView({
         return;
       }
 
+      if (validationResponse.status === 429) {
+        toast.error(
+          validationData.message ||
+            "Too many attempts. Please wait a few minutes and try again.",
+        );
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!validationResponse.ok) {
+        toast.error(validationData.message || "Something went wrong. Please try again.");
+        setIsSubmitting(false);
+        return;
+      }
+
       // Step 2: Initiate delivery tracking
       await fetch("/api/auth/track-delivery", {
         method: "POST",
@@ -148,40 +163,30 @@ export function InitialView({
       // Immediately move to the next view
       setView("check-email");
 
-      // Step 4: Poll for delivery status in the background
-      const pollDeliveryStatus = async () => {
-        try {
-          const res = await fetch("/api/auth/delivery-status", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: values.email }),
-          });
-          const data = await res.json();
-          return data.status;
-        } catch (error) {
-          console.error("Polling error:", error);
-          return "PENDING"; // Keep polling on error
+      // Step 4: Listen for delivery confirmation via SSE — replaces a
+      // 30x/1s polling loop with one connection that closes itself on the
+      // first real event or a matching 30s timeout server-side. Bare path,
+      // same as every other /api/auth/* call in this file — this widget
+      // has no way to know which host app (and which path prefix, if any)
+      // is rendering it, so it relies entirely on /api/auth/* resolving
+      // correctly from either context unmodified.
+      const deliveryStream = new EventSource(
+        `/api/auth/delivery-status/stream?email=${encodeURIComponent(values.email)}`,
+      );
+      deliveryStream.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.type === "BOUNCED") {
+          toast.error(
+            "Invalid email address. Please check for typos and try again.",
+          );
         }
+        // DELIVERED and TIMEOUT both just stop listening silently, same as
+        // the polling loop this replaces.
+        deliveryStream.close();
       };
-
-      // Fire-and-forget polling
-      (async () => {
-        let status = "PENDING";
-        const maxAttempts = 30; // Poll for 30 seconds
-        for (let attempt = 0; attempt < maxAttempts; attempt++) {
-          await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 second
-          status = await pollDeliveryStatus();
-          if (status === "BOUNCED") {
-            toast.error(
-              "Invalid email address. Please check for typos and try again.",
-            );
-            break;
-          }
-          if (status === "DELIVERED") {
-            break; // Stop polling if delivered
-          }
-        }
-      })();
+      deliveryStream.onerror = () => {
+        deliveryStream.close();
+      };
     } catch (error) {
       console.error("Error sending sign-in link:", error);
       toast.error("An error occurred. Please try again.");

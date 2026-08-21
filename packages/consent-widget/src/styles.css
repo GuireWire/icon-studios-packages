@@ -1,0 +1,4 @@
+/* Utilities only — deliberately no @tailwind base/components. The
+   consuming app already ships its own Tailwind base/reset layer; shipping
+   ours too would double-apply global resets on top of the host page. */
+@tailwind utilities;

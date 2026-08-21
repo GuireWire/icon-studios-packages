@@ -71,6 +71,13 @@ export function CheckEmailView({ email, setView }: CheckEmailViewProps) {
         // request is what actually establishes the session (same as
         // clicking the emailed link), so the browser needs to process its
         // Set-Cookie and follow its redirect itself.
+        //
+        // Deliberately not resetting isSubmitting here: window.location.href
+        // doesn't halt JS execution, so a finally-block reset would clear
+        // the spinner while the old page is still on screen, for however
+        // long the actual navigation takes — looks like the button did
+        // nothing. Leave it spinning; the whole page is about to be
+        // replaced anyway.
         window.location.href = redirectUrl;
       } else {
         const error = await res.text();
@@ -78,11 +85,11 @@ export function CheckEmailView({ email, setView }: CheckEmailViewProps) {
           type: "manual",
           message: error || "Invalid code.",
         });
+        setIsSubmitting(false);
       }
     } catch (error) {
       console.error("Error verifying email code:", error);
       toast.error("An error occurred. Please try again.");
-    } finally {
       setIsSubmitting(false);
     }
   }
