@@ -13,6 +13,18 @@ module.exports = {
   // own tailwind.config.ts, so the generated CSS reads whatever theme
   // values the *consuming app* defines — this package ships zero color
   // values of its own.
+  //
+  // Prefixed (not `important`-scoped like auth-widget) because ConsentDialog
+  // itself comes from @c15t/nextjs, portals via its own internal
+  // createPortal call, and exposes no container override — there's no DOM
+  // ancestor we can scope against. A uniquely-prefixed class name can never
+  // collide with the consuming app's own same-named utility regardless of
+  // where c15t decides to render it. Every literal class string in this
+  // package's own source (CookieSettingsButton.tsx, this file's theme.slots
+  // above) must carry this prefix too — Tailwind only generates the
+  // prefixed form once this is set. See
+  // Planning/V2/AuthConsentWidgetTailwindScoping.md in bookings-icon-studios.
+  prefix: "cw-",
   theme: {
     extend: {
       colors: {

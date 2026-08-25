@@ -1,6 +1,6 @@
 {
   "name": "@iconstudios/consent-widget",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Icon Studios' cookie-consent banner and preferences dialog (c15t), for any Next.js/React landing page (website-icon-studios or bespoke) paired with a bookings-icon-studios instance.",
   "license": "UNLICENSED",
   "author": "Icon Studios",

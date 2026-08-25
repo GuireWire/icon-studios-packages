@@ -5,6 +5,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 
 import { cn } from "../lib/utils";
+import { scopeRoot } from "../lib/scope-root";
 
 const Dialog = DialogPrimitive.Root;
 
@@ -35,7 +36,7 @@ const DialogContent = React.forwardRef<
     hideCloseButton?: boolean;
   }
 >(({ className, children, hideCloseButton, ...props }, ref) => (
-  <DialogPortal>
+  <DialogPortal container={scopeRoot}>
     <DialogOverlay />
     <DialogPrimitive.Content
       ref={ref}

@@ -1,6 +1,6 @@
 {
   "name": "@iconstudios/auth-widget",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "Icon Studios' real sign-in/registration widget (customer and staff), for Next.js/React client landing pages paired with a bookings-icon-studios backend.",
   "license": "UNLICENSED",
   "author": "Icon Studios",

@@ -294,6 +294,7 @@ export function AuthModel({
                   className="size-10"
                   width={40}
                   height={40}
+                  unoptimized
                 />
               )}
               {brandName &&
@@ -311,6 +312,7 @@ export function AuthModel({
                       width={150}
                       height={50}
                       className="dark:brightness-0 dark:invert"
+                      unoptimized
                     />
                   )
                 ))}

@@ -56,19 +56,19 @@ const theme: Theme = {
     // than usual here: until consent is answered the banner cannot be
     // dismissed, so anyone who opens a modal first is stuck with both on
     // screen and neither resolvable.
-    consentBanner: "z-[60]",
-    consentBannerOverlay: "z-[60]",
-    consentBannerCard: "p-3 sm:p-6",
+    consentBanner: "cw-z-[60]",
+    consentBannerOverlay: "cw-z-[60]",
+    consentBannerCard: "cw-p-3 cw-sm:p-6",
     // The footer block holding the action buttons renders square-cornered by
     // default, which reads as a hard rectangle against the card's rounded
     // edge — round it to match.
-    consentBannerFooter: "rounded-lg",
+    consentBannerFooter: "cw-rounded-lg",
     // textOnPrimary above is already set to destructive-foreground (near-white
     // in every theme config), but it doesn't reach filled primary buttons —
     // set it directly on the slot instead so Accept All is actually readable
     // on the teal background. Same reasoning as Button.tsx's own use of
     // text-destructive-foreground over primary-foreground.
-    buttonPrimary: "text-destructive-foreground",
+    buttonPrimary: "cw-text-destructive-foreground",
     // Customize/Reject aren't primary, so buttonPrimary above doesn't reach
     // them — ConsentActionStyle only exposes variant/mode, no colour, so the
     // slot is the only way to set their text colour.

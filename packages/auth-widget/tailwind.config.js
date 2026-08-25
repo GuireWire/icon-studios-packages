@@ -12,6 +12,13 @@ module.exports = {
   // reads whatever theme values the *consuming app* defines — this package
   // ships zero color values of its own.
   darkMode: ["class"],
+  // Scopes every generated utility to require #auth-widget-root as an
+  // ancestor (paired with src/lib/scope-root.ts's portal redirect) — without
+  // this, this package's own Tailwind output collides with whatever the
+  // consuming app's own CSS generates for the same class names, since both
+  // are independently-compiled stylesheets loaded on the same page. See
+  // Planning/V2/AuthConsentWidgetTailwindScoping.md in bookings-icon-studios.
+  important: "#auth-widget-root",
   theme: {
     extend: {
       colors: {

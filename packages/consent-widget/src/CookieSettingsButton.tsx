@@ -6,7 +6,7 @@ export function CookieSettingsButton() {
   const { setActiveUI } = useConsentManager();
 
   return (
-    <button onClick={() => setActiveUI("dialog")} className="hover:underline">
+    <button onClick={() => setActiveUI("dialog")} className="hover:cw-underline">
       Cookie Settings
     </button>
   );
